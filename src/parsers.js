@@ -33,14 +33,14 @@ exports.parseSearchResult = (context) => {
                             })
                             for (var i = 0; i < c.length; i++) {
                                 a.push({
-                                    name: utils.fv(c[i], 'browseEndpoint:browseId'),
-                                    browseId: utils.fv(c[i], 'text')
+                                    name: utils.fv(c[i], 'text'),
+                                    browseId: utils.fv(c[i], 'browseEndpoint:browseId')
                                 })
                             }
                         } else {
                             a.push({
-                                name: utils.fv(c, 'browseEndpoint:browseId'),
-                                browseId: utils.fv(c, 'text')
+                                name: utils.fv(c, 'text'),
+                                browseId: utils.fv(c, 'browseEndpoint:browseId')
                             })
                         }
                         return 1 < a.length ? a : 0 < a.length ? a[0] : a
@@ -158,14 +158,14 @@ exports.parseSongSearchResult = (context) => {
                     })
                     for (var i = 0; i < c.length; i++) {
                         a.push({
-                            name: utils.fv(c[i], 'browseEndpoint:browseId', true),
-                            browseId: utils.fv(c[i], 'text', true)
+                            name: utils.fv(c[i], 'text', true),
+                            browseId: utils.fv(c[i], 'browseEndpoint:browseId', true)
                         })
                     }
                 } else {
                     a.push({
-                        name: utils.fv(c, 'browseEndpoint:browseId', true),
-                        browseId: utils.fv(c, 'text', true)
+                        name: utils.fv(c, 'text', true),
+                        browseId: utils.fv(c, 'browseEndpoint:browseId', true)
                     })
                 }
                 return 1 < a.length ? a : 0 < a.length ? a[0] : a
@@ -397,14 +397,14 @@ exports.parseArtistPage = context => {
                     })
                     for (var i = 0; i < c.length; i++) {
                         a.push({
-                            name: utils.fv(c[i], 'browseEndpoint:browseId'),
-                            browseId: utils.fv(c[i], 'text')
+                            name: utils.fv(c[i], 'text'),
+                            browseId: utils.fv(c[i], 'browseEndpoint:browseId')
                         })
                     }
                 } else {
                     a.push({
-                        name: utils.fv(c, 'browseEndpoint:browseId'),
-                        browseId: utils.fv(c, 'text')
+                        name: utils.fv(c, 'text'),
+                        browseId: utils.fv(c, 'browseEndpoint:browseId')
                     })
                 }
                 return 1 < a.length ? a : 0 < a.length ? a[0] : a
@@ -545,14 +545,14 @@ exports.parsePlaylistPage = context => {
                         })
                         for (var i = 0; i < c.length; i++) {
                             a.push({
-                                name: utils.fv(c[i], 'browseEndpoint:browseId'),
-                                browseId: utils.fv(c[i], 'text')
+                                name: utils.fv(c[i], 'text'),
+                                browseId: utils.fv(c[i], 'browseEndpoint:browseId')
                             })
                         }
                     } else {
                         a.push({
-                            name: utils.fv(c, 'browseEndpoint:browseId'),
-                            browseId: utils.fv(c, 'text')
+                            name: utils.fv(c, 'text'),
+                            browseId: utils.fv(c, 'browseEndpoint:browseId')
                         })
                     }
                     return 1 < a.length ? a : 0 < a.length ? a[0] : a
@@ -577,14 +577,14 @@ exports.parsePlaylistPage = context => {
                     })
                     for (var i = 0; i < c.length; i++) {
                         a.push({
-                            name: utils.fv(c[i], 'browseEndpoint:browseId'),
-                            browseId: utils.fv(c[i], 'text')
+                            name: utils.fv(c[i], 'text'),
+                            browseId: utils.fv(c[i], 'browseEndpoint:browseId')
                         })
                     }
                 } else {
                     a.push({
-                        name: utils.fv(c, 'browseEndpoint:browseId'),
-                        browseId: utils.fv(c, 'text')
+                        name: utils.fv(c, 'text'),
+                        browseId: utils.fv(c, 'browseEndpoint:browseId')
                     })
                 }
                 return 1 < a.length ? a : 0 < a.length ? a[0] : a
