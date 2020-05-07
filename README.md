@@ -16,16 +16,16 @@ const api = new YoutubeMusicApi()
 api.initalize() // Retrieves Innertube Config
 .then(info => {
 	api.getSearchSuggestions("ne deve ne kush").then(result => {
-		/*[
-		  'ne deve ne kush',
-		  'ne deve ne kush canlı',
-		  'ne deve ne kush lyrics',
-		  'ne deve ne kush konser',
-		  'ne deve ne kush cover',
-		  'ne deve ne kush sözleri',
-		  'ne deve ne kush akor'
-		]*/
-		console.log(result)
+	/*[
+	  'ne deve ne kush',
+	  'ne deve ne kush canlı',
+	  'ne deve ne kush lyrics',
+	  'ne deve ne kush konser',
+	  'ne deve ne kush cover',
+	  'ne deve ne kush sözleri',
+	  'ne deve ne kush akor'
+	]*/
+	console.log(result)
 	})
 
 	api.search("ne deve ne kush").then(result => {
@@ -119,7 +119,7 @@ api.initalize() // Retrieves Innertube Config
 	    ....
 	  ]
 	}*/
-		console.log(result)
+	console.log(result)
 	})
 
 	api.getPlaylist("VLPLTw3BBwcLBjG-4fernx2Xt-GHdYMPYAFM").then(result => {
@@ -155,7 +155,7 @@ api.initalize() // Retrieves Innertube Config
 	  ],
 	  continuation: []
 	}*/
-		console.log(result)
+	console.log(result)
 	})
 })
 ```
