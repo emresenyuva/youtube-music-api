@@ -1,0 +1,16 @@
+{
+  "name": "youtube-music-api",
+  "version": "1.0.0",
+  "description": "Unoffical Youtube Music API",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Emre Şenyuva",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "lodash": "^4.17.15",
+    "tough-cookie": "^4.0.0"
+  }
+}
