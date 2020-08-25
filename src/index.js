@@ -216,7 +216,7 @@ class YoutubeMusicApi {
                                         }
                                         if (!Array.isArray(continuationResult.continuation) && result.continuation instanceof Object) {
                                             if (contentLimit > result.content.length) {
-                                                getContinuation(continuationResult.continuation)
+                                                getContinuations(continuationResult.continuation)
                                             } else {
                                                 return resolve(result)
                                             }
