@@ -619,6 +619,7 @@ exports.parseAlbumPage = context => {
     result.trackCount = parseInt(albumRelease.trackCount)
     result.date = albumRelease.releaseDate
     result.duration = parseInt(albumRelease.durationMs)
+    result.playlistId = albumRelease.audioPlaylistId
     result.thumbnails = utils.fv(albumRelease, 'thumbnailDetails:thumbnails')
 
     const albumReleaseDetail = utils.fv(
