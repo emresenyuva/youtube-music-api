@@ -246,7 +246,7 @@ exports.parseAlbumSearchResult = (context) => {
                 ),
                 'browseEndpoint:browseId'
             ),
-            playlistId: utils.fv(sectionContext, 'playNavigationEndpoint:playlistId'),
+            playlistId: utils.fv(sectionContext, 'toggledServiceEndpoint:playlistId', true),
             name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
             artist: (utils.fv(_.nth(flexColumn, 2), 'runs:text')),
             year: utils.fv(_.nth(flexColumn, 3), 'runs:text'),
@@ -619,6 +619,7 @@ exports.parseAlbumPage = context => {
     result.trackCount = parseInt(albumRelease.trackCount)
     result.date = albumRelease.releaseDate
     result.duration = parseInt(albumRelease.durationMs)
+    result.playlistId = albumRelease.audioPlaylistId
     result.thumbnails = utils.fv(albumRelease, 'thumbnailDetails:thumbnails')
 
     const albumReleaseDetail = utils.fv(

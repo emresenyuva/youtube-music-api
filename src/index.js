@@ -1,4 +1,4 @@
-const axios = require('axios')
+const axios = require('axios').default
 const tough = require('tough-cookie')
 const querystring = require('querystring')
 const _ = require('lodash')
@@ -133,7 +133,7 @@ class YoutubeMusicApi {
         })
     }
 
-    search(query, categoryName, pageLimit = 1) {
+    search(query, categoryName, _pageLimit = 1) {
         return new Promise((resolve, reject) => {
             var result = {}
             this._createApiRequest('search', {
@@ -216,7 +216,7 @@ class YoutubeMusicApi {
                                         }
                                         if (!Array.isArray(continuationResult.continuation) && result.continuation instanceof Object) {
                                             if (contentLimit > result.content.length) {
-                                                getContinuation(continuationResult.continuation)
+                                                getContinuations(continuationResult.continuation)
                                             } else {
                                                 return resolve(result)
                                             }

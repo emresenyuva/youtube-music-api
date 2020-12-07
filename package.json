@@ -2,24 +2,24 @@
   "name": "youtube-music-api",
   "version": "1.0.5",
   "description": "Unoffical Youtube Music API",
-	"homepage": "https://github.com/emresenyuva/youtube-music-api#readme",
-	"keywords": [
-      "youtube music",
-      "youtube music api",
-      "youtube music private api",
-      "music api",
-			"music youtube",
-			"innertube music api",
-			"unoffical youtube music api",
-			"api",
-			"youtube music client",
-			"youtube music web api"
+  "homepage": "https://github.com/emresenyuva/youtube-music-api#readme",
+  "keywords": [
+    "youtube music",
+    "youtube music api",
+    "youtube music private api",
+    "music api",
+    "music youtube",
+    "innertube music api",
+    "unoffical youtube music api",
+    "api",
+    "youtube music client",
+    "youtube music web api"
   ],
   "main": "src/index.js",
-	"repository": {
-	  "type" : "git",
-	  "url" : "https://github.com/emresenyuva/youtube-music-api.git"
-	},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emresenyuva/youtube-music-api.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
