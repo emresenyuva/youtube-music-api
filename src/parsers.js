@@ -16,17 +16,17 @@ exports.parseSearchResult = (context) => {
         const flexColumn = _.concat(utils.fv(
             sectionContext, 'musicResponsiveListItemFlexColumnRenderer'
         ))
-        const type = utils.fv(_.nth(flexColumn, 1), 'runs:text')
+        const type = _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 0)
         switch (type) {
             case 'Song':
                 result.content.push(Object.freeze({
-                    type: _.lowerCase(utils.fv(_.nth(flexColumn, 1), 'runs:text')),
+                    type: _.lowerCase(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 0)),
                     videoId: utils.fv(sectionContext, 'playNavigationEndpoint:videoId'),
                     playlistId: utils.fv(sectionContext, 'playNavigationEndpoint:playlistId'),
                     name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
                     artist: (function() {
                         var a = [],
-                            c = (utils.fv(_.nth(flexColumn, 2), 'runs'))
+                            c = (_.nth(utils.fv(_.nth(flexColumn, 1), 'runs'), 2))
                         if (Array.isArray(c)) {
                             c = _.filter(c, function(o) {
                                 return o.navigationEndpoint
@@ -46,34 +46,34 @@ exports.parseSearchResult = (context) => {
                         return 1 < a.length ? a : 0 < a.length ? a[0] : a
                     })(),
                     album: (function() {
-                        var c = (utils.fv(_.nth(flexColumn, 3), 'runs'))
+                        var c = (_.nth(utils.fv(_.nth(flexColumn, 1), 'runs'), 4))
                         if (!Array.isArray(c) && c instanceof Object) return {
                             name: utils.fv(c, 'text'),
                             browseId: utils.fv(c, 'browseEndpoint:browseId')
                         }
                         return {}
                     })(),
-                    duration: utils.hms2ms(utils.fv(_.nth(flexColumn, 4), 'runs:text')),
+                    duration: utils.hms2ms(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 6)),
                     thumbnails: utils.fv(sectionContext, 'musicThumbnailRenderer:thumbnails'),
                     params: utils.fv(sectionContext, 'playNavigationEndpoint:params')
                 }))
                 break
             case 'Video':
                 result.content.push(Object.freeze({
-                    type: _.lowerCase(utils.fv(_.nth(flexColumn, 1), 'runs:text')),
+                    type: _.lowerCase(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 0)),
                     videoId: utils.fv(sectionContext, 'playNavigationEndpoint:videoId'),
                     playlistId: utils.fv(sectionContext, 'playNavigationEndpoint:playlistId'),
                     name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
-                    author: utils.fv(_.nth(flexColumn, 2), 'runs:text'),
-                    views: utils.fv(_.nth(flexColumn, 3), 'runs:text'),
-                    duration: utils.hms2ms(utils.fv(_.nth(flexColumn, 4), 'runs:text')),
+                    author: _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 2),
+                    views: _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 4),
+                    duration: utils.hms2ms(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 6)),
                     thumbnails: utils.fv(sectionContext, 'musicThumbnailRenderer:thumbnails'),
                     params: utils.fv(sectionContext, 'playNavigationEndpoint:params'),
                 }))
                 break
             case 'Artist':
                 result.content.push(Object.freeze({
-                    type: _.lowerCase(utils.fv(_.nth(flexColumn, 1), 'runs:text')),
+                    type: _.lowerCase(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 0)),
                     browseId: utils.fv(_.at(sectionContext, 'navigationEndpoint'), 'browseEndpoint:browseId'),
                     name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
                     thumbnails: utils.fv(sectionContext, 'musicThumbnailRenderer:thumbnails')
@@ -83,7 +83,7 @@ exports.parseSearchResult = (context) => {
             case 'Single':
             case 'Album':
                 result.content.push(Object.freeze({
-                    type: _.lowerCase(utils.fv(_.nth(flexColumn, 1), 'runs:text')),
+                    type: _.lowerCase(_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 0)),
                     browseId: utils.fv(
                         _.at(
                             sectionContext, 'navigationEndpoint'
@@ -92,8 +92,8 @@ exports.parseSearchResult = (context) => {
                     ),
                     playlistId: utils.fv(sectionContext, 'playNavigationEndpoint:playlistId'),
                     name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
-                    artist: (utils.fv(_.nth(flexColumn, 2), 'runs:text')),
-                    year: utils.fv(_.nth(flexColumn, 3), 'runs:text'),
+                    artist: (_.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 2)),
+                    year: _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 4),
                     thumbnails: utils.fv(sectionContext, 'musicThumbnailRenderer:thumbnails')
                 }))
                 break
@@ -107,11 +107,11 @@ exports.parseSearchResult = (context) => {
                         'browseEndpoint:browseId'
                     ),
                     title: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
-                    author: utils.fv(_.nth(flexColumn, 2), 'runs:text'),
+                    author: _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 3),
                     count: _.toNumber(
                         _.nth(
                             _.words(
-                                utils.fv(_.nth(flexColumn, 3), 'runs:text')
+                                _.nth(utils.fv(_.nth(flexColumn, 1), 'runs:text'), 5)
                             ),
                             0
                         )
