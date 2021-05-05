@@ -46,7 +46,7 @@ class YoutubeMusicApi {
     _createApiRequest(endpointName, inputVariables, inputQuery = {}) {
         const headers = Object.assign({
             'x-origin': this.client.defaults.baseURL,
-            'X-Goog-Visitor-Id': this.ytcfg.VISITOR_DATA,
+            'X-Goog-Visitor-Id': this.ytcfg.VISITOR_DATA || '',
             'X-YouTube-Client-Name': this.ytcfg.INNERTUBE_CONTEXT_CLIENT_NAME,
             'X-YouTube-Client-Version': this.ytcfg.INNERTUBE_CLIENT_VERSION,
             'X-YouTube-Device': this.ytcfg.DEVICE,
