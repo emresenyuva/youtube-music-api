@@ -619,61 +619,73 @@ exports.parseAlbumPage = context => {
     }
 
     const albumRelease = utils.fv(
-        context, 'musicAlbumRelease'
+        context, 'musicDetailHeaderRenderer'
     )
-    result.title = albumRelease.title
-    result.trackCount = parseInt(albumRelease.trackCount)
-    result.date = albumRelease.releaseDate
-    result.duration = parseInt(albumRelease.durationMs)
-    result.playlistId = albumRelease.audioPlaylistId
-    result.thumbnails = utils.fv(albumRelease, 'thumbnailDetails:thumbnails')
+
+    result.title = _.get(albumRelease, 'title.runs[0].text');
+
+    const toArtistFromTextRun = ({ text, navigationEndpoint}) => {
+        if (text === ' & ') return ;
+        if (text === ', ') return ;
+
+        return {
+            name: text,
+            browseId: navigationEndpoint && utils.fv(navigationEndpoint, 'browseId'),
+        };
+    }
+
+    result.artist = albumRelease.subtitle.runs.slice(2, -2).reduce((result,item) => {
+        const artist = toArtistFromTextRun(item);
+
+        if (artist) {
+            result.push(artist);
+        }
+
+        return result;
+    }, []);
+
+
+    const serviceTrackingParams = utils.fv(context, 'serviceTrackingParams:params').reduce((result, { key, value}) => {
+        result[key] = value;
+        return result;
+    }, {});
+
+    result.browseId = serviceTrackingParams.browse_id;
+
+    result.trackCount = parseInt(_.get(albumRelease, 'secondSubtitle.runs[0].text').replace(' songs'));
+    // result.date = albumRelease.releaseDate
+    // result.duration = parseInt(albumRelease.durationMs)
+
+    result.playlistId = utils.fv(
+        albumRelease, 'topLevelButtons:playlistId'
+    )
+
+    result.thumbnails = utils.fv(albumRelease, 'croppedSquareThumbnailRenderer:thumbnails');
 
     const albumReleaseDetail = utils.fv(
         context, 'musicAlbumReleaseDetail'
     )
-    result.description = albumReleaseDetail.description
 
-    const albumArtist = utils.fv(
-        context, 'musicArtist'
+    result.description = utils.fv(
+        albumRelease, 'description:text'
     )
-    if (albumArtist instanceof Array) {
-        for (let i = 0; i < albumArtist.length; i++) {
-            result.artist.push({
-                name: albumArtist[i].name,
-                browseId: albumArtist[i].externalChannelId,
-                thumbnails: utils.fv(albumArtist[i], 'thumbnailDetails:thumbnails')
-            })
-        }
-    } else if (albumArtist instanceof Object) {
-        result.artist.push({
-            name: albumArtist.name,
-            browseId: albumArtist.externalChannelId,
-            thumbnails: utils.fv(albumArtist, 'thumbnailDetails:thumbnails')
-        })
-    }
 
-    const albumTrack = utils.fv(
-        context, 'musicTrack'
+    const albumTracks = utils.fv(
+        context, 'musicResponsiveListItemRenderer'
     )
-    if (albumTrack instanceof Array) {
-        for (let i = 0; i < albumTrack.length; i++) {
-            result.tracks.push({
-                name: albumTrack[i].title,
-                videoId: albumTrack[i].videoId,
-                artistNames: albumTrack[i].artistNames,
-                duration: parseInt(albumTrack[i].lengthMs),
-                thumbnails: utils.fv(albumTrack[i], 'thumbnailDetails:thumbnails')
-            })
-        }
-    } else if (albumTrack instanceof Object) {
+
+    albumTracks.forEach((item) => {
         result.tracks.push({
-            name: albumTrack.title,
-            videoId: albumTrack.videoId,
-            artistNames: albumTrack.artistNames,
-            duration: parseInt(albumTrack.lengthMs),
-            thumbnails: utils.fv(albumTrack, 'thumbnailDetails:thumbnails')
-        })
-    }
+            name: utils.fv(item, 'flexColumns:0:runs:text'),
+            videoId: utils.fv(item, 'videoId')[0],
+
+            artistNames: [].concat(utils.fv(item, 'flexColumns:1:runs'))
+                .map(toArtistFromTextRun)
+                .filter(Boolean)
+                .map(({ name }) => name),
+        });
+    });
+
     return result
 }
 
