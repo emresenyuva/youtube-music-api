@@ -32,7 +32,7 @@ class YoutubeMusicApi {
         })
         this.client.interceptors.response.use(res => {
             if (res.headers.hasOwnProperty('set-cookie')) {
-                if (res.headers['set-cookie'] instanceof Array) {
+                if (Array.isArray(res.headers['set-cookie'])) {
                     res.headers['set-cookie'].map(value => {
                         this.cookies.setCookieSync(tough.Cookie.parse(value), res.config.baseURL)
                     })
@@ -215,7 +215,7 @@ class YoutubeMusicApi {
                                             result.content = _.concat(result.content, continuationResult.content)
                                             result.continuation = continuationResult.continuation
                                         }
-                                        if (!Array.isArray(continuationResult.continuation) && result.continuation instanceof Object) {
+                                        if (!Array.isArray(continuationResult.continuation) && typeof result.continuation === 'object') {
                                             if (contentLimit > result.content.length) {
                                                 getContinuations(continuationResult.continuation)
                                             } else {
@@ -227,7 +227,7 @@ class YoutubeMusicApi {
                                     })
                             }
 
-                            if (contentLimit > result.content.length && (!Array.isArray(result.continuation) && result.continuation instanceof Object)) {
+                            if (contentLimit > result.content.length && (!Array.isArray(result.continuation) && typeof result.continuation === 'object')) {
                                 getContinuations(result.continuation)
                             } else {
                                 return resolve(result)

@@ -47,7 +47,7 @@ exports.parseSearchResult = (context) => {
                     })(),
                     album: (function() {
                         var c = (_.nth(utils.fv(_.nth(flexColumn, 1), 'runs'), 4))
-                        if (!Array.isArray(c) && c instanceof Object) return {
+                        if (!Array.isArray(c) && typeof c === 'object') return {
                             name: utils.fv(c, 'text'),
                             browseId: utils.fv(c, 'browseEndpoint:browseId')
                         }
@@ -179,7 +179,7 @@ exports.parseSongSearchResult = (context) => {
             })(),
             album: (function() {
                 var c = _.first(utils.fv(flexColumn[1], 'runs', true))
-                if (!Array.isArray(c) && c instanceof Object) return {
+                if (!Array.isArray(c) && typeof c === 'object') return {
                     name: utils.fv(c, 'text'),
                     browseId: utils.fv(c, 'browseEndpoint:browseId', true)
                 }
@@ -388,7 +388,7 @@ exports.parseArtistPage = context => {
             name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
             album: (function() {
                 var c = (utils.fv(_.nth(flexColumn, 2), 'runs'))
-                if (!Array.isArray(c) && c instanceof Object) return {
+                if (!Array.isArray(c) && typeof c === 'object') return {
                     name: utils.fv(c, 'text'),
                     browseId: utils.fv(c, 'browseEndpoint:browseId')
                 }
@@ -469,7 +469,7 @@ exports.parseArtistPage = context => {
                             break
                     }
                 }
-            } else if (itemContext instanceof Object) {
+            } else if (typeof itemContext === 'object') {
                 switch (carouselName) {
                     case 'singles':
                         result.products[carouselName].content.push({
