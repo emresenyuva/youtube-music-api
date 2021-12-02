@@ -3,6 +3,7 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 const tough = require('tough-cookie')
 const querystring = require('querystring')
 const _ = require('lodash')
+const sha1 = require('sha1')
 
 const utils = require('./utils')
 const parsers = require('./parsers')
@@ -45,8 +46,13 @@ class YoutubeMusicApi {
     }
 
     _createApiRequest(endpointName, inputVariables, inputQuery = {}) {
+        let date = new Date().getTime()
+        let cookie = this.cookies.getCookieStringSync(this.client.defaults.baseURL).split('; ').find(c => c.startsWith('SAPISID')).split('=')[1]
+        let SAPISID = `${date}_${sha1(date + ' ' + cookie + ' ' + 'https://music.youtube.com')}`
+
         const headers = Object.assign({
-            'x-origin': this.client.defaults.baseURL,
+            'Authorization': this.ytcfg.LOGGED_IN ? `SAPISIDHASH ${SAPISID}` : '',
+            'x-origin': 'https://music.youtube.com', // yes, youtube rejects it if it has a trailing slash
             'X-Goog-Visitor-Id': this.ytcfg.VISITOR_DATA || '',
             'X-YouTube-Client-Name': this.ytcfg.INNERTUBE_CONTEXT_CLIENT_NAME,
             'X-YouTube-Client-Version': this.ytcfg.INNERTUBE_CLIENT_VERSION,
@@ -73,20 +79,23 @@ class YoutubeMusicApi {
         })
     }
 
-    initalize() {
+    initalize(cookie) {
         return new Promise((resolve, reject) => {
-            this.client.get('/')
+            this.client.get('/', {
+                headers: {
+                    'Cookie': cookie ?? ''
+                }
+            })
                 .then(res => {
                     try {
-                        res.data.split('ytcfg.set(').map(v => {
-                            try {
-                                return JSON.parse(v.split(');')[0])
-                            } catch (_) {}
-                        }).filter(Boolean).forEach(cfg => (this.ytcfg = Object.assign(cfg, this.ytcfg)))
-                        resolve({
-                            locale: this.ytcfg.LOCALE,
-                            logged_in: this.ytcfg.LOGGED_IN
-                        })
+                        const js = res.data.match(/ytcfg\.set\((.*)\);/)[1]
+                        this.ytcfg = JSON.parse(js)
+                        if (this.ytcfg.LOGGED_IN) {
+                            cookie.split('; ').forEach(c => {
+                                this.cookies.setCookieSync(tough.Cookie.parse(c), this.client.defaults.baseURL)
+                            })
+                        }
+                        resolve(this.ytcfg)
                     } catch (err) {
                         reject(err)
                     }
@@ -288,6 +297,29 @@ class YoutubeMusicApi {
                 })
                 .catch(error => reject(error))
         })
+    }
+
+    //Authenticated requests
+
+    getUserHistory() {
+        if (this.ytcfg.LOGGED_IN) {
+            return new Promise((resolve, reject) => {
+                this._createApiRequest('browse',  utils.buildEndpointContext('PLAYLIST', 'FEmusic_history'))
+                    .then(context => {
+                        try {
+                            const result = parsers.parseHistoryPage(context)
+                            resolve(result)
+                        } catch (error) {
+                            resolve({
+                                error: error.message
+                            })
+                        }
+                    })
+                    .catch(error => reject(error))
+            })
+        } else {
+            throw new Error('not logged in.')
+        }
     }
 }
 
