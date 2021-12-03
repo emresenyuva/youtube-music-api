@@ -717,3 +717,83 @@ exports.parseNextPanel = context => {
     return result
 
 }
+
+exports.parseHistoryPage = context => {
+    const result = {
+        title: 'History',
+        content: [],
+        continuation: utils.fv(
+            context, 'nextContinuationData', true
+        )
+    }
+
+    const itemContext = utils.fv(
+        context, 'musicResponsiveListItemRenderer'
+    )
+    if (Array.isArray(itemContext)) {
+        for (let i = 0; i < itemContext.length; i++) {
+            const flexColumn = utils.fv(
+                itemContext[i], 'musicResponsiveListItemFlexColumnRenderer', true
+            )
+            result.content.push({
+                videoId: utils.fv(itemContext[i], 'playNavigationEndpoint:videoId'),
+                name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
+                author: (function() {
+                    var a = [],
+                        c = (utils.fv(_.nth(flexColumn, 1), 'runs'))
+                    if (Array.isArray(c)) {
+                        c = _.filter(c, function(o) {
+                            return o.navigationEndpoint
+                        })
+                        for (var i = 0; i < c.length; i++) {
+                            a.push({
+                                name: utils.fv(c[i], 'text'),
+                                browseId: utils.fv(c[i], 'browseEndpoint:browseId')
+                            })
+                        }
+                    } else {
+                        a.push({
+                            name: utils.fv(c, 'text'),
+                            browseId: utils.fv(c, 'browseEndpoint:browseId')
+                        })
+                    }
+                    return 1 < a.length ? a : 0 < a.length ? a[0] : a
+                })(),
+                duration: utils.hms2ms(utils.fv(itemContext[i], 'musicResponsiveListItemFixedColumnRenderer:runs:text', true)),
+                thumbnails: utils.fv(itemContext[i], 'musicThumbnailRenderer:thumbnails')
+            })
+        }
+    } else {
+        const flexColumn = utils.fv(
+            itemContext, 'musicResponsiveListItemFlexColumnRenderer', true
+        )
+        result.content.push({
+            videoId: utils.fv(itemContext, 'playNavigationEndpoint:videoId'),
+            name: utils.fv(_.nth(flexColumn, 0), 'runs:text'),
+            author: (function() {
+                var a = [],
+                    c = (utils.fv(_.nth(flexColumn, 1), 'runs'))
+                if (Array.isArray(c)) {
+                    c = _.filter(c, function(o) {
+                        return o.navigationEndpoint
+                    })
+                    for (var i = 0; i < c.length; i++) {
+                        a.push({
+                            name: utils.fv(c[i], 'text'),
+                            browseId: utils.fv(c[i], 'browseEndpoint:browseId')
+                        })
+                    }
+                } else {
+                    a.push({
+                        name: utils.fv(c, 'text'),
+                        browseId: utils.fv(c, 'browseEndpoint:browseId')
+                    })
+                }
+                return 1 < a.length ? a : 0 < a.length ? a[0] : a
+            })(),
+            duration: utils.hms2ms(utils.fv(itemContext, 'musicResponsiveListItemFixedColumnRenderer:runs:text', true)),
+            thumbnails: utils.fv(itemContext, 'musicThumbnailRenderer:thumbnails', true)
+        })
+    }
+    return result
+}
