@@ -3,7 +3,6 @@ axios.defaults.adapter = require('axios/lib/adapters/http');
 const tough = require('tough-cookie')
 const querystring = require('querystring')
 const _ = require('lodash')
-const sha1 = require('sha1')
 
 const utils = require('./utils')
 const parsers = require('./parsers')
@@ -47,7 +46,8 @@ class YoutubeMusicApi {
 
     _createApiRequest(endpointName, inputVariables, inputQuery = {}) {
         let date = new Date().getTime()
-        let cookie = this.cookies.getCookieStringSync(this.client.defaults.baseURL).split('; ').find(c => c.startsWith('SAPISID')).split('=')[1]
+        let sha1 = str => crypto.createHash("sha1").update(str).digest("hex")
+        let cookie = this.cookies.getCookieStringSync(this.client.defaults.baseURL).split('; ').find(c => c.startsWith('SAPISID'))?.split('=')[1]
         let SAPISID = `${date}_${sha1(date + ' ' + cookie + ' ' + 'https://music.youtube.com')}`
 
         const headers = Object.assign({
