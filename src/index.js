@@ -73,7 +73,7 @@ class YoutubeMusicApi {
         })
     }
 
-    initalize() {
+    initialize() {
         return new Promise((resolve, reject) => {
             this.client.get('/')
                 .then(res => {
