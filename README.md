@@ -13,7 +13,7 @@ npm install youtube-music-api
 const YoutubeMusicApi = require('youtube-music-api')
 
 const api = new YoutubeMusicApi()
-api.initalize() // Retrieves Innertube Config
+api.initialize() // Retrieves Innertube Config
 .then(info => {
 	api.getSearchSuggestions("ne deve ne kush").then(result => {
 		/*[
