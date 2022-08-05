@@ -338,7 +338,7 @@ exports.parseSongPage = (context) => {
         videoId: utils.fv(context, 'videoDetails:videoId'),
         channelId: utils.fv(context, 'videoDetails:channelId'),
         name: utils.fv(context, 'videoDetails:title'),
-        duration: utils.fv(context, 'videoDetails:lengthSeconds'),
+        duration: parseInt(utils.fv(context, 'videoDetails:lengthSeconds')) * 1000,
         description: utils.fv(context, 'microformat:microformatDataRenderer:description'),
         artist: utils.fv(context, 'videoDetails:author'),
         url: utils.fv(context, 'microformat:microformatDataRenderer:urlCanonical'),
