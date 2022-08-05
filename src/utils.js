@@ -128,3 +128,14 @@ exports.buildEndpointContext = (typeName, browseId) => {
         'browseId': browseId
     }
 }
+
+exports.buildSongEndpointContext = (browseId) => {
+    return {
+        "playbackContext": {
+            "contentPlaybackContext": {
+                "signatureTimestamp": null,
+            }
+        },
+        "video_id": browseId
+    }
+}

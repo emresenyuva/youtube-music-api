@@ -56,6 +56,52 @@ api.initalize() // Retrieves Innertube Config
 	api.search("ne deve ne kush", "artist").then(result => console.log(result)) // just search for artist
 	api.search("ne deve ne kush", "playlist").then(result => console.log(result)) // just search for playlist
 
+	api.getSong("Fy7dTM301R4").then(result => {
+	/* 
+		{
+			"videoId": "Fy7dTM301R4",
+			"channelId": "UC7J79nhJrxFT8pr9V1seDug",
+			"name": "Dreamers (MTV Unplugged)",
+			"duration": 205000,
+			"description": "Provided to YouTube by Universal Music Group Dreamers (MTV Unplugged) · Molotov · Anita Tijoux MTV Unplugged: El Desconecte ℗ 2018 Universal Music Mexico ...",
+			"artist": "Molotov",
+			"url": "https://music.youtube.com/watch?v=Fy7dTM301R4",
+			"views": 277249,
+			"thumbnails": [
+				{
+					"url": "https://lh3.googleusercontent.com/bMmRi3FyJf-v1zoAJaDCT1H1qhXuRxBgXIYCds6pJNdq2uL0edeB7FfWZn8EQxMpaUAWcNaE-OWCDvB0=w60-h60-l90-rj",
+					"width": 60,
+					"height": 60
+				},
+				{
+					"url": "https://lh3.googleusercontent.com/bMmRi3FyJf-v1zoAJaDCT1H1qhXuRxBgXIYCds6pJNdq2uL0edeB7FfWZn8EQxMpaUAWcNaE-OWCDvB0=w120-h120-l90-rj",
+					"width": 120,
+					"height": 120
+				},
+				{
+					"url": "https://lh3.googleusercontent.com/bMmRi3FyJf-v1zoAJaDCT1H1qhXuRxBgXIYCds6pJNdq2uL0edeB7FfWZn8EQxMpaUAWcNaE-OWCDvB0=w226-h226-l90-rj",
+					"width": 226,
+					"height": 226
+				},
+				{
+					"url": "https://lh3.googleusercontent.com/bMmRi3FyJf-v1zoAJaDCT1H1qhXuRxBgXIYCds6pJNdq2uL0edeB7FfWZn8EQxMpaUAWcNaE-OWCDvB0=w544-h544-l90-rj",
+					"width": 544,
+					"height": 544
+				}
+			],
+			"tags": [
+				"Molotov",
+				"モロトフ",
+				"Anita Tijoux",
+				"MTV Unplugged: El Desconecte",
+				"Dreamers"
+			],
+			"category": "Music",
+			"musicVideoType": "MUSIC_VIDEO_TYPE_ATV"
+		},
+		
+	*/});
+
 	api.getAlbum("MPREb_9TuSrHElFSO").then(result => {
 	/*{	title: 'ne deve ne kush',
 		  description: '',

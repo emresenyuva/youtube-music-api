@@ -174,6 +174,23 @@ class YoutubeMusicApi {
         })
     }
 
+    getSong(videoId) {
+        return new Promise((resolve, reject) => {
+            this._createApiRequest('player', utils.buildSongEndpointContext(videoId))
+                .then(context => {
+                    try {
+                        const result = parsers.parseSongPage(context)
+                        return resolve(result)
+                    } catch (error) {
+                        return resolve({
+                            error: error.message
+                        })
+                    }
+                })
+                .catch(error => reject(error))
+        })
+    }
+
     getAlbum(browseId) {
         if (_.startsWith(browseId, 'MPREb')) {
             return new Promise((resolve, reject) => {
