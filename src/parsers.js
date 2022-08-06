@@ -333,6 +333,25 @@ exports.parsePlaylistSearchResult = (context) => {
     return result
 }
 
+exports.parseSongPage = (context) => {
+    const result = {
+        videoId: utils.fv(context, 'videoDetails:videoId'),
+        channelId: utils.fv(context, 'videoDetails:channelId'),
+        name: utils.fv(context, 'videoDetails:title'),
+        duration: parseInt(utils.fv(context, 'videoDetails:lengthSeconds')) * 1000,
+        description: utils.fv(context, 'microformat:microformatDataRenderer:description'),
+        artist: utils.fv(context, 'videoDetails:author'),
+        url: utils.fv(context, 'microformat:microformatDataRenderer:urlCanonical'),
+        views: parseInt(utils.fv(context, 'videoDetails:viewCount')),
+        thumbnails: utils.fv(context, 'videoDetails:thumbnail:thumbnails'),
+        tags: utils.fv(context, 'microformat:microformatDataRenderer:tags'),
+        category: utils.fv(context, 'microformat:microformatDataRenderer:category'),
+        musicVideoType: utils.fv(context, 'videoDetails:musicVideoType'),
+    }
+
+    return result;
+}
+
 exports.parseArtistPage = context => {
     const result = {
         name: '',
