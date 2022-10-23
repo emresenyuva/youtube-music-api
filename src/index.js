@@ -1,5 +1,5 @@
-const axios = require('axios').default
-axios.defaults.adapter = require('axios/lib/adapters/http');
+const axios = require('axios');
+//axios.defaults.adapter = require('axios/lib/adapters/http');
 const tough = require('tough-cookie')
 const querystring = require('querystring')
 const _ = require('lodash')
@@ -110,7 +110,6 @@ class YoutubeMusicApi {
                         let r = parsers.parseArtistSearchResult(context)
                         let o = new Date() - parse
                         resolve(r)
-
                     })
             })
         }
