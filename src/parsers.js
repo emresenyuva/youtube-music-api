@@ -674,17 +674,27 @@ exports.parseAlbumPage = context => {
         context, 'musicResponsiveListItemRenderer'
     )
 
-    albumTracks.forEach((item) => {
-        result.tracks.push({
-            name: utils.fv(item, 'flexColumns:0:runs:text'),
-            videoId: utils.fv(item, 'videoId')[0],
-
-            artistNames: [].concat(utils.fv(item, 'flexColumns:1:runs'))
-                .map(toArtistFromTextRun)
-                .filter(Boolean)
-                .map(({ name }) => name),
-        });
-    });
+    if (Array.isArray(albumTracks)) {
+      albumTracks.forEach((item) => {
+          result.tracks.push({
+              name: utils.fv(item, 'flexColumns:0:runs:text'),
+              videoId: utils.fv(item, 'videoId')[0],
+              artistNames: [].concat(utils.fv(item, 'flexColumns:1:runs'))
+                  .map(toArtistFromTextRun)
+                  .filter(Boolean)
+                  .map(({ name }) => name),
+          });
+      });
+    } else {
+      result.tracks.push({
+          name: utils.fv(albumTracks, 'flexColumns:0:runs:text'),
+          videoId: utils.fv(albumTracks, 'videoId')[0],
+          artistNames: [].concat(utils.fv(albumTracks, 'flexColumns:1:runs'))
+              .map(toArtistFromTextRun)
+              .filter(Boolean)
+              .map(({ name }) => name),
+      });
+    }
 
     return result
 }
