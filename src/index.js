@@ -1,5 +1,5 @@
 const axios = require('axios').default
-axios.defaults.adapter = require('axios/lib/adapters/http');
+// axios.defaults.adapter = require('axios/lib/adapters/http');
 const tough = require('tough-cookie')
 const querystring = require('querystring')
 const _ = require('lodash')
